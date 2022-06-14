@@ -1,7 +1,11 @@
 import tkinter as tk
+import datetime
 from time import sleep
 from PIL import ImageGrab
 from PIL.ImageTk import PhotoImage
+from upload import upload
+from login import login
+
 from position import pos
 
 
@@ -29,20 +33,30 @@ class myGUI:
         exit(123)
 
     def getter(self, widget):
+        name = str(datetime.datetime.now()).replace(' ', '-').replace('.','_').replace(':','_')
         x = self.__MainWindow.winfo_rootx() + widget.winfo_x()
         y = self.__MainWindow.winfo_rooty() + widget.winfo_y()
         x1 = x + widget.winfo_width()
         y1 = y + widget.winfo_height()
-        ImageGrab.grab().crop((x, y, x1, y1)).save("shoot.png")
+        ImageGrab.grab().crop((x, y, x1, y1)).save('temp/' + name+".png")
+        return 'temp/' + name
 
     def saveImage(self):
         self.menu.grab_release()
         sleep(.05)
         self.getter(self.canvas)
-        # self.canvas.postscript(file="temp.ps")
-        # img = Image.open("temp.ps")
-        # img.save("shoot.bmp", format='bmp')
-        # os.remove('temp.ps')
+        exit(101)
+
+    def uploadImage(self):
+        self.menu.grab_release()
+
+        if not login.isLogin() is None:
+            login.show()
+        sleep(.05)
+        name = self.getter(self.canvas)
+        self.__MainWindow.destroy()
+        sleep(.5)
+        upload.loadToFolder(filename=name+'.png')
         exit(101)
 
     def radioSelect(self, option=None):
@@ -55,15 +69,21 @@ class myGUI:
         self.menu.add_radiobutton(label='rectangle', command=lambda: self.radioSelect('rectangle'))
         self.menu.add_separator()
         self.menu.add_command(label='save', command=self.saveImage)
-        self.menu.add_command(label='upload', command=self.saveImage)
+        self.menu.add_command(label='upload', command=self.uploadImage)
         self.menu.add_separator()
+        if not login.isLogin() is None:
+            self.menu.add_command(label='yandex login', command=login.show)
+            self.menu.add_separator()
         self.menu.add_command(label="none", command=self.menu.grab_release)
         self.menu.add_command(label="exit", command=self.on_closing)
 
     def guiSettings(self):
         self.__MainWindow = tk.Tk()
         self.__MainWindow.geometry(str(self.width) + 'x' + str(self.height))
-        self.__MainWindow.overrideredirect(False)
+        self.__MainWindow.attributes('-alpha', 1)
+        self.__MainWindow.attributes('-type', 'normal')
+        # self.__MainWindow.overrideredirect(True)
+        self.__MainWindow.resizable(width=False, height=False)
         self.__MainWindow.bind("<Button-3>", self.popup)
 
     def canvasSettings(self):
