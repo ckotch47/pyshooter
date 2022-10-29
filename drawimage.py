@@ -49,7 +49,6 @@ class myGUI:
 
     def uploadImage(self):
         self.menu.grab_release()
-
         if not login.isLogin() is None:
             login.show()
         sleep(.05)

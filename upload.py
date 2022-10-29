@@ -79,12 +79,12 @@ class Upload:
             return False
 
     def GUILoader(self):
-        self.__mainWindow = tkinter.Tk()
+        self.__mainWindow = tkinter.Toplevel()
         self.progress = Progressbar(self.__mainWindow, orient=HORIZONTAL,
                                length=100, mode='determinate')
         self.progress.pack(pady=10, padx=10)
         self.bar(25, '+')
-        # tkinter.mainloop()
+        tkinter.mainloop()
 
     def bar(self, value, arrow):
         self.progress['value'] = value
