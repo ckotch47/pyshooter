@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image
 
 from src.service.drawimage import canvasService
+from src.module.mbtn import mouse_btn
 
 
 class CanvasGui:
@@ -22,8 +23,8 @@ class CanvasGui:
         self.__MainWindow.attributes('-alpha', 1)
         self.__MainWindow.attributes('-type', 'normal')
         self.__MainWindow.resizable(width=False, height=False)
-        self.__MainWindow.bind("<Button-3>", self.canvas_service.popup)
-
+        self.__MainWindow.bind(f'<{mouse_btn.right}>', self.canvas_service.popup)
+        self.__MainWindow.protocol("WM_DELETE_WINDOW", self.canvas_service.on_closing)
 
     def show(self, image=None):
         self.image = image

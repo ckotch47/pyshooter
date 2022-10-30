@@ -12,6 +12,8 @@ import src.gui.settings as settings
 import src.gui.about as about
 
 import src.locale as lc
+
+
 class canvasService:
     paint = 'rectangle'
     color = 'red'
@@ -32,10 +34,10 @@ class canvasService:
         self.width = self.config['DEFAULT']['width']
         self.color = self.config['DEFAULT']['color']
 
-    def canvasSettings(self, image, MainWindow, width, height):
+    def canvasSettings(self, image, mainWindow, width, height):
         self.image_path = image
         self.photo = tk.PhotoImage(file=image)
-        self.canvas = tk.Canvas(MainWindow, width=str(width), height=str(height), borderwidth=0,
+        self.canvas = tk.Canvas(mainWindow, width=str(width), height=str(height), borderwidth=0,
                                 border=0, relief='ridge', highlightthickness=0, )
         self.canvas.create_image(0, 0, anchor='nw', image=self.photo)
         self.canvas.pack()
@@ -109,9 +111,9 @@ class canvasService:
         self.menu.add_command(label=lc.menu.none, command=self.menu.grab_release)
         self.menu.add_command(label=lc.menu.exit, command=self.on_closing)
 
-    @staticmethod
-    def on_closing():
-        exit(0)
+    def on_closing(self):
+        os.remove(self.image_path)
+        exit(101)
 
     def copy(self, is_exit=True):
         widget = self.canvas

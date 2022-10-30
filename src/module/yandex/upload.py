@@ -1,14 +1,12 @@
 import os
 import time
 import tkinter
-from tkinter import HORIZONTAL
-from tkinter.ttk import Progressbar
 import requests
 import pyperclip
 from src.module.yandex.yandex import yandex
 from src.module.yandex.login import login
 from tkinter import messagebox
-from tkinter import Tk
+import src.locale as lc
 
 
 class Upload:
@@ -17,7 +15,6 @@ class Upload:
         self.entry = None
         self.progress = None
         self.__mainWindow = None
-        self.pathIMG = 'shoot.png'
         self.folder = yandex.folder
         self.link = ''
 
@@ -30,7 +27,8 @@ class Upload:
         else:
             return False
 
-    def createFolder(self):
+    @staticmethod
+    def createFolder():
         login.isLogin()
         res = requests.put(url='https://cloud-api.yandex.net/v1/disk/resources?path=' + yandex.folder,
                            headers={"Authorization": "OAuth " + str(login.access_token)})
@@ -58,7 +56,7 @@ class Upload:
         link = self.getLinkToUpload(name=name)
         with open(filename, 'rb') as file:
             try:
-                res = requests.put(url=link, files={'file': file})
+                requests.put(url=link, files={'file': file})
                 time.sleep(.5)
                 if is_delete is True:
                     os.remove(filename)
@@ -82,40 +80,19 @@ class Upload:
         else:
             return False
 
-    def GUILoader(self):
-        self.__mainWindow = Tk()
-        self.progress = Progressbar(self.__mainWindow, orient=HORIZONTAL,
-                                    length=100, mode='determinate')
-        self.progress.pack(pady=10, padx=10)
-        self.bar(25, '+')
-        tkinter.mainloop()
-
-    def bar(self, value, arrow):
-        self.progress['value'] = value
-        self.__mainWindow.update_idletasks()
-        time.sleep(.3)
-        if arrow == '+':
-            if value >= 100:
-                arrow = '-'
-            value += 25
-        else:
-            if value <= 0:
-                arrow = '+'
-            value -= 25
-        self.bar(value, arrow)
-
     def showMassage(self, msg):
         self.__mainWindow = tkinter.Tk()
+        self.__mainWindow.wm_title(lc.uploadYandex.title)
         try:
             pyperclip.copy(msg)  # linux use xclip
-            label = tkinter.Label(self.__mainWindow, text='Link copied into clipboard')
+            label = tkinter.Label(self.__mainWindow, text=lc.uploadYandex.text_copy_successful)
             label.pack(padx=10, pady=10)
         except:
             self.entry = tkinter.Entry(self.__mainWindow, width=110)
             self.entry.insert(0, msg)
             self.entry.pack(pady=5, padx=5, side='left')
 
-            btn = tkinter.Button(self.__mainWindow, text='copy', command=self.copy)
+            btn = tkinter.Button(self.__mainWindow, text=lc.uploadYandex.text_btn_copy, command=self.copy)
             btn.pack(pady=5, padx=5, side='right')
         finally:
             tkinter.mainloop()
@@ -124,7 +101,7 @@ class Upload:
         try:
             pyperclip.copy(self.entry.get())
         except:
-            messagebox.showerror(title='error', message='system not supported', )
+            messagebox.showerror(title=lc.msgbox.dontUseClipboard['title'], message=lc.msgbox.dontUseClipboard['text'])
 
 
 upload = Upload()

@@ -17,4 +17,5 @@ class yandexAPI:
         self.folder = 'pyshooter'
         self.separator = '%2F'
 
+
 yandex = yandexAPI()
