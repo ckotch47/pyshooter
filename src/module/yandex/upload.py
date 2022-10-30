@@ -5,12 +5,15 @@ from tkinter import HORIZONTAL
 from tkinter.ttk import Progressbar
 import requests
 import pyperclip
-from yandex import yandex
-from login import login
+from src.module.yandex.yandex import yandex
+from src.module.yandex.login import login
 from tkinter import messagebox
+from tkinter import Tk
+
 
 class Upload:
     def __init__(self):
+        self.loader = None
         self.entry = None
         self.progress = None
         self.__mainWindow = None
@@ -48,7 +51,7 @@ class Upload:
         else:
             return 'File is exist'
 
-    def loadToFolder(self, filename):
+    def loadToFolder(self, filename, is_delete=False):
         name = filename.split('/')[-1]
         login.isLogin()
         self.checkFolder()
@@ -57,7 +60,8 @@ class Upload:
             try:
                 res = requests.put(url=link, files={'file': file})
                 time.sleep(.5)
-                os.remove(filename)
+                if is_delete is True:
+                    os.remove(filename)
                 return self.makeFilePublish(name)
             except KeyError:
                 return False
@@ -79,9 +83,9 @@ class Upload:
             return False
 
     def GUILoader(self):
-        self.__mainWindow = tkinter.Toplevel()
+        self.__mainWindow = Tk()
         self.progress = Progressbar(self.__mainWindow, orient=HORIZONTAL,
-                               length=100, mode='determinate')
+                                    length=100, mode='determinate')
         self.progress.pack(pady=10, padx=10)
         self.bar(25, '+')
         tkinter.mainloop()
@@ -95,7 +99,7 @@ class Upload:
                 arrow = '-'
             value += 25
         else:
-            if value <=0:
+            if value <= 0:
                 arrow = '+'
             value -= 25
         self.bar(value, arrow)
@@ -103,7 +107,7 @@ class Upload:
     def showMassage(self, msg):
         self.__mainWindow = tkinter.Tk()
         try:
-            pyperclip.copy(msg) # linux use xclip
+            pyperclip.copy(msg)  # linux use xclip
             label = tkinter.Label(self.__mainWindow, text='Link copied into clipboard')
             label.pack(padx=10, pady=10)
         except:
@@ -120,7 +124,7 @@ class Upload:
         try:
             pyperclip.copy(self.entry.get())
         except:
-            messagebox.showerror(title='error', message='system not supported',)
+            messagebox.showerror(title='error', message='system not supported', )
+
 
 upload = Upload()
-

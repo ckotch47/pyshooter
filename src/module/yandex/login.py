@@ -4,10 +4,10 @@ import os.path
 import requests
 from PIL import Image, ImageTk
 import qrcode
-from yandex import yandex
+from src.module.yandex.yandex import yandex
 
 
-class login:
+class Login:
     def __init__(self):
         self.__mainWindow = None
         self.code = None
@@ -52,16 +52,16 @@ class login:
     @staticmethod
     def generateQR():
         data = yandex.url
-        filename = 'qr_code.png'
+        filename = 'temp/qr_code.png'
         img = qrcode.make(data)
         img.save(filename)
 
     def GUI(self):
         if self.checkCode():
-            image = Image.open("qr_code.png")
+            image = Image.open("temp/qr_code.png")
         else:
             self.generateQR()
-            image = Image.open("qr_code.png")
+            image = Image.open("temp/qr_code.png")
 
         self.__mainWindow = tkinter.Toplevel()
         # label
@@ -114,7 +114,7 @@ class login:
 
     @staticmethod
     def checkCode():
-        if os.path.isfile('qr_code.png'):
+        if os.path.isfile('temp/qr_code.png'):
             return True
         else:
             return False
@@ -126,5 +126,5 @@ class login:
             self.GUI()
 
 
-login = login()
+login = Login()
 

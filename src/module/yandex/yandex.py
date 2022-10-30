@@ -16,4 +16,5 @@ class yandexAPI:
                    self.app_id + '&device_name=' + self.system
         self.folder = 'pyshooter'
         self.separator = '%2F'
+
 yandex = yandexAPI()
