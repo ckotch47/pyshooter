@@ -4,10 +4,12 @@ import os.path
 import requests
 from PIL import Image, ImageTk
 import qrcode
-from yandex import yandex
+from src.module.yandex.yandex import yandex
+from src.module.errorsmsg import *
+import src.locale as lc
 
 
-class login:
+class Login:
     def __init__(self):
         self.__mainWindow = None
         self.code = None
@@ -64,8 +66,9 @@ class login:
             image = Image.open("qr_code.png")
 
         self.__mainWindow = tkinter.Toplevel()
+        self.__mainWindow.wm_title(lc.loginYandex.title)
         # label
-        label = tkinter.Label(self.__mainWindow,text='scan qr or open link into browser')
+        label = tkinter.Label(self.__mainWindow, text=lc.loginYandex.text_for_scan)
         label.pack(pady=5)
 
         # image
@@ -75,11 +78,11 @@ class login:
         canvas.pack(pady=5)
 
         # link
-        link = tkinter.Entry(self.__mainWindow,width=65)
+        link = tkinter.Entry(self.__mainWindow, width=65)
         link.insert(0, yandex.url)
         link.pack(pady=5)
 
-        label = tkinter.Label(self.__mainWindow, text='past code and go')
+        label = tkinter.Label(self.__mainWindow, text=lc.loginYandex.text_for_paste)
         label.pack()
 
         frame = tkinter.Frame(self.__mainWindow)
@@ -88,7 +91,7 @@ class login:
         self.code = tkinter.Entry(frame, width=60)
         self.code.pack(side='left')
 
-        btn = tkinter.Button(frame, text='go', command=self.sendCode)
+        btn = tkinter.Button(frame, text=lc.loginYandex.text_btn_ok, command=self.sendCode)
         btn.pack(side='right')
 
         tkinter.mainloop()
@@ -110,7 +113,7 @@ class login:
                 self.config.write(configfile)
             self.__mainWindow.destroy()
         except:
-            print('error')
+            went_wrong()
 
     @staticmethod
     def checkCode():
@@ -126,5 +129,4 @@ class login:
             self.GUI()
 
 
-login = login()
-
+login = Login()
