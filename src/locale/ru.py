@@ -34,22 +34,39 @@ class about:
 
 class msgbox:
     definePlatform = {
-        'title': 'Warning',
-        'text': 'This program dos`t define your platform'
+        'title': 'Предупреждение',
+        'text': 'Программа не может определить вашу ОС'
     }
     wentWrong = {
-        'title': 'Warning',
-        'text': 'Ooops..... something went wrong'
+        'title': 'Предупреждение',
+        'text': 'Ууупс..... что-то пошло не так'
     }
     installGnomeScreen = {
-        'title': 'Error',
-        'text': 'This app don`t find gnome-screenshot\nplease install gnome-screenshot'
+        'title': 'Ошибка',
+        'text': 'Приложение не может найти gnome-screenshot\nУстановите gnome-screenshot'
     }
     folderDontUse = {
-        'title': 'Error',
-        'text': 'Don`t use this folder'
+        'title': 'Ошибка',
+        'text': 'Вы не можете использовать эту папку'
     }
     selectFolder = {
-        'title': 'Error',
-        'text': 'Don`t use this folder\nPlease select folder into setting'
+        'title': 'Ошибка',
+        'text': 'Вы не можете использовать эту папку\nВыберите путь в настройках'
     }
+    dontUseClipboard = {
+        'title': 'Ошибка',
+        'text': 'Система не поддерживает копирование\nСкопируйте ссылку вручную'
+    }
+
+
+class loginYandex:
+    title = 'Войти через яндекс'
+    text_for_scan = 'Отсканируй код, или вставь сслыку в браузер'
+    text_for_paste = 'Вставь код и нажми Ок'
+    text_btn_ok = 'Ок'
+
+
+class uploadYandex:
+    title = 'Предупреждения'
+    text_copy_successful = 'Ссылка скопирована в буфер обмена'
+    text_btn_copy = 'Скопировать'

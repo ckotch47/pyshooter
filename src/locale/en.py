@@ -53,3 +53,20 @@ class msgbox:
         'title': 'Error',
         'text': 'Don`t use this folder\nPlease select folder into setting'
     }
+    dontUseClipboard = {
+        'title': 'Error',
+        'text': 'System not supported'
+    }
+
+
+class loginYandex:
+    title = 'Login via yandex'
+    text_for_scan = 'Scan qr or open link into browser'
+    text_for_paste = 'Past code and go'
+    text_btn_ok = 'Ok'
+
+
+class uploadYandex:
+    title = 'Info'
+    text_copy_successful = 'Link copied into clipboard'
+    text_btn_copy = 'Copy'

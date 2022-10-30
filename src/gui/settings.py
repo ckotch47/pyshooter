@@ -5,6 +5,7 @@ from tkinter import filedialog
 from src.locale import app_locale
 from src.module.errorsmsg import *
 import src.locale as lc
+
 config = ConfigParser()
 
 
@@ -21,7 +22,6 @@ def show(main_window=False):
     text_info = Frame(_root)
     text_info.pack(expand=1, padx=20, pady=10, fill='x', anchor='nw')
     Label(text_info, text=lc.performance.text).pack(side='top')
-
 
     frame_folder = Frame(_root)
     frame_folder.pack(expand=1, padx=20, pady=0, fill='x', anchor='n')
@@ -47,7 +47,8 @@ def show(main_window=False):
     frame_delete_shoot = Frame(_root)
     frame_delete_shoot.pack(expand=1, padx=20, pady=0, fill='x', anchor='n')
     Label(frame_delete_shoot, text=lc.performance.labelDelete).pack(side='left')
-    Checkbutton(frame_delete_shoot, variable=var, onvalue=True, offvalue=False, command=lambda: select_delete(var)).pack(side='right')
+    Checkbutton(frame_delete_shoot, variable=var, onvalue=True, offvalue=False,
+                command=lambda: select_delete(var)).pack(side='right')
 
     # Create Dropdown menu
     frame_locale = Frame(_root)
